@@ -17,6 +17,45 @@
   <link rel="stylesheet" href="style.css">
 </head>
 
+<!-- Subtle animated accent -->
+<div class="screen-accent" aria-hidden="true"></div>
+</body>
+</html>
+
+
+<script>
+  // Keep a reference to the active screen wake lock
+  let wakeLock = null;
+
+  // Request that the screen stays awake
+  async function keepScreenAwake() {
+    if (!("wakeLock" in navigator)) {
+      console.log("Screen Wake Lock is not supported.");
+      return;
+    }
+
+    try {
+      wakeLock = await navigator.wakeLock.request("screen");
+      console.log("Screen wake lock is active.");
+    } catch (error) {
+      console.log("Could not activate screen wake lock:", error);
+    }
+  }
+
+  // Try again when the page becomes visible
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+      keepScreenAwake();
+    }
+  });
+
+  // Request the lock when the page loads
+  keepScreenAwake();
+</script>
+</body>
+</html>
+
+
 <body>
   <div class="page-layout">
 
