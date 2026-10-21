@@ -110,3 +110,30 @@ body {
     object-fit: contain;
   }
 }
+
+/* Small moving accent in the bottom corner */
+.screen-accent {
+  position: fixed;
+  right: 8px;
+  bottom: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #ffcc00;
+  z-index: 1000;
+  pointer-events: none;
+
+  animation: gentle-move 20s linear infinite alternate;
+}
+
+/* Slowly move the accent back and forth */
+@keyframes gentle-move {
+  from {
+    transform: translateX(-12px);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
