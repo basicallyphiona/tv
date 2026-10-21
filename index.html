@@ -17,60 +17,20 @@
   <link rel="stylesheet" href="style.css">
 </head>
 
-<!-- Subtle animated accent -->
-<div class="screen-accent" aria-hidden="true"></div>
-</body>
-</html>
-
-
-<script>
-  // Keep a reference to the active screen wake lock
-  let wakeLock = null;
-
-  // Request that the screen stays awake
-  async function keepScreenAwake() {
-    if (!("wakeLock" in navigator)) {
-      console.log("Screen Wake Lock is not supported.");
-      return;
-    }
-
-    try {
-      wakeLock = await navigator.wakeLock.request("screen");
-      console.log("Screen wake lock is active.");
-    } catch (error) {
-      console.log("Could not activate screen wake lock:", error);
-    }
-  }
-
-  // Try again when the page becomes visible
-  document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible") {
-      keepScreenAwake();
-    }
-  });
-
-  // Request the lock when the page loads
-  keepScreenAwake();
-</script>
-</body>
-</html>
-
-
 <body>
   <div class="page-layout">
 
-    <!-- HEADER: Logo image -->
+    <!-- HEADER: Centered logo -->
     <header class="site-header">
       <img src="images/header.png" alt="Mathnasium Logo">
     </header>
 
-    <!-- Yellow line and black divider -->
+    <!-- Yellow stripe and black divider -->
     <div class="top-divider"></div>
 
-    <!-- MAIN CONTENT: Three image containers -->
+    <!-- MAIN CONTENT: Three image panels -->
     <main class="dashboard">
 
-      <!-- LEFT IMAGE CONTAINER -->
       <section class="dashboard-panel">
         <img
           src="images/left.png"
@@ -79,7 +39,6 @@
         >
       </section>
 
-      <!-- CENTER IMAGE CONTAINER -->
       <section class="dashboard-panel">
         <img
           src="images/center.png"
@@ -88,7 +47,6 @@
         >
       </section>
 
-      <!-- RIGHT IMAGE CONTAINER -->
       <section class="dashboard-panel">
         <img
           src="images/right.png"
@@ -98,7 +56,48 @@
       </section>
 
     </main>
-
   </div>
+
+  <!-- Subtle animated accent -->
+  <div class="screen-accent" aria-hidden="true"></div>
+
+  <!-- Keep the screen awake when supported -->
+  <script>
+    let wakeLock = null;
+
+    async function keepScreenAwake() {
+      if (!("wakeLock" in navigator)) {
+        console.log("Screen Wake Lock is not supported.");
+        return;
+      }
+
+      try {
+        // Avoid requesting another lock if one is already active
+        if (wakeLock && !wakeLock.released) {
+          return;
+        }
+
+        wakeLock = await navigator.wakeLock.request("screen");
+
+        wakeLock.addEventListener("release", () => {
+          wakeLock = null;
+        });
+
+        console.log("Screen wake lock is active.");
+      } catch (error) {
+        console.log("Could not activate screen wake lock:", error);
+      }
+    }
+
+    // Reacquire the lock when returning to the page
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") {
+        keepScreenAwake();
+      }
+    });
+
+    // Request the lock on page load
+    keepScreenAwake();
+  </script>
 </body>
 </html>
