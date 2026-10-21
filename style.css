@@ -1,5 +1,10 @@
 
-/* Remove default browser spacing */
+/* ========================================
+   GLOBAL RESET
+   Tuned for a 1920x1080 lobby TV
+   Scales fluidly to different resolutions
+======================================== */
+
 * {
   box-sizing: border-box;
 }
@@ -9,56 +14,78 @@ body {
   width: 100%;
   height: 100%;
   margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
-/* Full-screen vertical layout */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ========================================
+   MAIN PAGE LAYOUT
+======================================== */
+
 .page-layout {
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   background-color: #d71920;
 }
 
-/* HEADER: compact white strip */
-.site-header {
-  height: 82px;
-  flex-shrink: 0;
+/* ========================================
+   HEADER
+   Compact white strip with centered logo
+======================================== */
 
+.site-header {
+  flex: 0 0 10%;
+  min-height: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  padding: 8px 20px;
-  background-color: white;
+  padding: 0.5vh 2vw;
+  background-color: #ffffff;
+  overflow: hidden;
 }
 
-/* Keep the logo proportional */
 .site-header img {
+  display: block;
+  width: 100%;
+  height: 100%;
   max-width: 90%;
-  max-height: 100%;
-  width: auto;
-  height: auto;
   object-fit: contain;
+  object-position: center;
 }
 
-/* Yellow accent line and black bar */
+/* ========================================
+   YELLOW ACCENT + BLACK DIVIDER
+======================================== */
+
 .top-divider {
-  height: 32px;
-  flex-shrink: 0;
-  background-color: black;
-  border-top: 7px solid #ffcc00;
+  flex: 0 0 3%;
+  min-height: 0;
+  background-color: #000000;
+  border-top: clamp(4px, 0.4vw, 7px) solid #ffcc00;
 }
 
-/* Red background behind all three panels */
+/* ========================================
+   THREE-PANEL DASHBOARD
+   Equal columns fill remaining screen space
+======================================== */
+
 .dashboard {
   flex: 1;
-
+  min-width: 0;
+  min-height: 0;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 2%;
-
-  padding: 24px 1.6% 26px;
+  gap: clamp(10px, 1vw, 20px);
+  padding: clamp(12px, 1.25vw, 24px);
+  overflow: hidden;
 
   background: linear-gradient(
     135deg,
@@ -68,7 +95,11 @@ body {
   );
 }
 
-/* Each white container has its own black outline */
+/* ========================================
+   WHITE PANELS
+   Black outline with consistent inner padding
+======================================== */
+
 .dashboard-panel {
   min-width: 0;
   min-height: 0;
@@ -78,40 +109,29 @@ body {
   align-items: center;
   justify-content: center;
 
-  background-color: white;
-  border: 3px solid #222;
-  border-radius: 26px;
+  padding: clamp(6px, 0.7vw, 14px);
+  background-color: #ffffff;
+  border: clamp(3px, 0.26vw, 5px) solid #000000;
+  border-radius: clamp(12px, 1vw, 22px);
 }
 
-/* Show the entire image without cropping */
+/* ========================================
+   PANEL IMAGES
+   Centered, fully visible, never cropped
+======================================== */
+
 .panel-image {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
+  object-position: center;
 }
 
-/* Stack panels vertically on smaller screens */
-@media (max-width: 800px) {
-  .dashboard {
-    grid-template-columns: 1fr;
-    gap: 18px;
-    padding: 18px;
-  }
+/* ========================================
+   SUBTLE MOVING ACCENT
+======================================== */
 
-  .dashboard-panel {
-    min-height: 350px;
-    border-radius: 20px;
-  }
-
-  .panel-image {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-}
-
-/* Small moving accent in the bottom corner */
 .screen-accent {
   position: fixed;
   right: 8px;
@@ -122,11 +142,9 @@ body {
   background-color: #ffcc00;
   z-index: 1000;
   pointer-events: none;
-
   animation: gentle-move 20s linear infinite alternate;
 }
 
-/* Slowly move the accent back and forth */
 @keyframes gentle-move {
   from {
     transform: translateX(-12px);
@@ -137,90 +155,35 @@ body {
   }
 }
 
-.panel {
-  background: #fff;
-  border: 5px solid #000;
-  border-radius: 18px;
-  padding: 12px;
-  box-sizing: border-box;
+/* ========================================
+   SMALLER SCREENS
+   Preserve a single-screen layout
+======================================== */
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+@media (max-width: 800px) {
+  .site-header {
+    flex-basis: 9%;
+  }
 
-  min-width: 0;
-  overflow: hidden;
+  .top-divider {
+    flex-basis: 3%;
+  }
+
+  .dashboard {
+    gap: 1vw;
+    padding: 1.5vw;
+  }
+
+  .dashboard-panel {
+    padding: 4px;
+    border-radius: 10px;
+    border-width: 2px;
+  }
 }
 
-.panel img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: center;
-}
-
-.panel {
-  padding: clamp(6px, 0.8vw, 16px);
-}
-/* Lock the webpage to the screen */
-html,
-body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-
-/* Keep the display within the visible screen */
-* {
-  box-sizing: border-box;
-}
-
-/* Main page layout */
-.main-container {
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Header */
-.header {
-  flex: 0 0 12%;
-}
-
-/* Three image panels */
-.panels {
-  flex: 1;
-  min-height: 0;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  padding: 16px;
-  overflow: hidden;
-}
-
-/* Individual image containers */
-.panel {
-  min-width: 0;
-  min-height: 0;
-  overflow: hidden;
-  padding: 12px;
-  border: 5px solid black;
-  border-radius: 18px;
-  background: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Images fit without cropping */
-.panel img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: center;
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .screen-accent {
+    animation: none;
+  }
 }
