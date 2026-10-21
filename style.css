@@ -137,3 +137,29 @@ body {
   }
 }
 
+.panel {
+  background: #fff;
+  border: 5px solid #000;
+  border-radius: 18px;
+  padding: 12px;
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 0;
+  overflow: hidden;
+}
+
+.panel img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+.panel {
+  padding: clamp(6px, 0.8vw, 16px);
+}
